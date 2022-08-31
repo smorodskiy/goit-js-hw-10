@@ -36,7 +36,7 @@ const debouncedGetCountries = debounce((e) => {
 function showCountries(countries) {
     // console.log(countries);
     if (countries.length > 50) {
-        Notiflix.Notify.info("A lot of countries for show");
+        Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
         return;
     }
 
@@ -63,10 +63,8 @@ function renderList(countries) {
 
         return `
         <li class="country-item">
-
-                <img class="country-pic" src="${png && png}" alt="${common && common} flag" />
-                <p class="country-name">${common && common}</p>
-
+            <img class="country-pic" src="${png && png}" alt="${common && common} flag" />
+            <p class="country-name">${common && common}</p>
         </li>
         `
     })
@@ -76,6 +74,7 @@ function renderList(countries) {
 }
 
 function renderInfo(country) {
+
     const {
         name: { common },
         flags: { png, svg },
@@ -83,6 +82,16 @@ function renderInfo(country) {
         population,
         languages,
     } = country;
+
+    const markup =  `
+    <ul>
+        <li class="country-item">
+        <b>Name</b>
+            <b>Capital</b>
+            <p class="country-name">${common && common}</p>
+        </li>
+    </ul>
+    `;
 
     png && console.log(`png: ${png}`);
     common && console.log(`Name: ${common}`);
