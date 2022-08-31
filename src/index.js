@@ -4,13 +4,17 @@ import "./css/styles.css";
 import Notiflix from "notiflix";
 
 const input = document.getElementById("search-box");
+const inputHighlightElem = document.querySelector(".input-highlight");
 const countryListElem = document.querySelector(".country-list");
 const countryInfoElem = document.querySelector(".country-info");
 
 const DEBOUNCE_DELAY = 300;
 
 // Event on input typing
-input.addEventListener("input", (e) => debouncedGetCountries(e));
+input.addEventListener("input", (e) => {
+    inputHighlightElem.innerText = input.value;
+    debouncedGetCountries(e);
+});
 
 function clearData() {
     countryInfoElem.innerHTML = "";
@@ -21,7 +25,7 @@ function clearData() {
 const debouncedGetCountries = debounce((e) => {
     const inputValue = e.target.value;
 
-    if (inputValue == "") {        
+    if (inputValue == "") {
         clearData();
         return;
     }
@@ -29,16 +33,15 @@ const debouncedGetCountries = debounce((e) => {
     // Post http req and get names
     getCountriesByName(inputValue)
         .then((response) => {
-            if (!response.ok) {                
+            if (!response.ok) {
                 throw new Error(response.status);
             }
             return response.json();
         })
         .then((foundedCountries) => showCountries(foundedCountries))
-        .catch(err => {
-            // console.log(err);
+        .catch(() => {
             Notiflix.Notify.failure("Oops, there is no country with that name");
-        })
+        });
 }, DEBOUNCE_DELAY);
 
 // Show names of countries
@@ -71,7 +74,9 @@ function renderList(countries) {
 
             return `
                     <li class="country-item">
-                        <img class="country-pic" src="${svg && svg}" alt="${official && official} flag" />
+                        <img class="country-pic" src="${svg && svg}" alt="${
+                official && official
+            } flag" />
                         <p>${official && official}</p>
                     </li>
                     `;
@@ -98,13 +103,13 @@ function renderInfo(country) {
                     <p class="country-name"><b>${official}</b></p>
                 </li>
                 <li class="country-item">
-                    <p><b>Capital: </b> ${capital}</p>
+                    <p><span class="label">Capital: </span> ${capital}</p>
                 </li>
                 <li class="country-item">
-                    <p><b>Population: </b> ${population}</p>
+                    <p><span class="label">Population: </span> ${population}</p>
                 </li>
                 <li class="country-item">
-                    <p><b>Languages: </b> ${Object.values(languages).join(", ")}</p>
+                    <p><span class="label">Languages: </span> ${Object.values(languages).join(", ")}</p>
                 </li>
             </ul>
     `;

@@ -5,11 +5,22 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../node_modules/modern-normalize/modern-normalize.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
         <title>Homework 10</title>
     </head>
     <body>
         <div class="country-page">
-            <input type="text" id="search-box" />
+            <div class="input-wrapper">
+                <input id="search-box" type="text" placeholder="Search..." />
+                <span class="input-highlight"></span>
+            </div>
+
+            <!-- <input type="text" id="search-box" /> -->
             <ul class="country-list"></ul>
             <div class="country-info"></div>
         </div>
