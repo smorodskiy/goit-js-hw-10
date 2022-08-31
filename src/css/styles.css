@@ -75,7 +75,7 @@ body {
 }
 
 .label {
-  font-weight: bold;
+    font-weight: bold;
     color: rgb(167, 157, 148);
 }
 
@@ -121,4 +121,18 @@ body {
 
 #search-box:focus + .input-highlight {
     border-top: 3px solid #fbc91b;
+}
+
+@media screen and (max-width: 500px) {
+  body {
+      font-size: 17px;
+  }
+
+  .country-page {
+      width: 85%;
+  }
+
+  .country-item.large {
+      font-size: 30px;
+  }
 }
