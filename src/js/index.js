@@ -132,13 +132,13 @@ function renderInfo(country) {
                     <img class="country-pic" src="${svg}" alt="${official} flag" />
                     <p class="country-name"><b>${official}</b></p>
                 </li>
-                <li class="country-info">
+                <li class="country-info-item">
                     <p><span class="country-label">Capital: </span> ${capital}</p>
                 </li>
-                <li class="country-info">
+                <li class="country-info-item">
                     <p><span class="country-label">Population: </span> ${population}</p>
                 </li>
-                <li class="country-info">
+                <li class="country-info-item">
                     <p><span class="country-label">Languages: </span> ${Object.values(
                         languages,
                     ).join(", ")}</p>

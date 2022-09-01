@@ -79,7 +79,7 @@ body {
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.country-info-item > p,
+.country-info-item.large > p,
 .country-item > p {
     padding-left: 10px;
 }
