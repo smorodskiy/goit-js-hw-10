@@ -25,6 +25,7 @@ address {
     font-style: normal;
 }
 
+svg,
 img {
     display: block;
 }
@@ -112,7 +113,7 @@ body {
     width: 50px;
 }
 
-.input-wrapper {    
+.input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
@@ -127,7 +128,7 @@ body {
     position: absolute;
     left: 0;
     bottom: 0;
-    max-width: calc(100% - 36px);
+    max-width: calc(100% - 70px);
     height: 0;
     color: transparent;
     font-family: var(--font-family);
@@ -138,7 +139,7 @@ body {
     height: 60px;
     width: 100%;
     min-width: 100%;
-    padding: 0 36px 0 0;
+    padding: 0 70px 0 0;
     border-radius: 0;
     line-height: var(--input-line-height);
     background-color: transparent;
@@ -154,7 +155,16 @@ body {
     border-top: 3px solid #fbc91b;
 }
 
-button {
+.button-wrapper {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.button-search,
+.button-clear {
     color: #7881a1;
     font-size: 2.4rem;
     line-height: 2.4rem;
@@ -162,13 +172,14 @@ button {
     transition: color 0.25s;
     cursor: pointer;
 }
-button:hover {
+
+.button-search:hover,
+.button-clear:hover {
     color: #bfd2ff;
 }
 
-button {
-    position: absolute;
-    right: 0;
+.button-search,
+.button-clear {
     padding: 0;
     background: none;
     border: none;

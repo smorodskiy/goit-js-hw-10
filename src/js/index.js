@@ -7,23 +7,32 @@ const input = document.getElementById("search-box");
 const inputHighlightElem = document.querySelector(".input-highlight");
 const countryListElem = document.querySelector(".country-list");
 const countryInfoElem = document.querySelector(".country-info");
-const buttonElem = document.querySelector("button");
+const buttonsElem = document.querySelectorAll("button");
 let countriesRef;
 
 const DEBOUNCE_DELAY = 300;
 const NUMBERS_COUNTRIES_TOSHOW = 10;
 
-// Event on input typing
-buttonElem.addEventListener("click", (e) => {
-    input.value = '';
-    inputHighlightElem.innerText = '';
-    clearData();
+// Event on buttons typing
+buttonsElem.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        // console.log(e.currentTarget);
+
+        if (e.currentTarget.classList.contains("button-clear")) {
+            input.value = "";
+            inputHighlightElem.innerText = "";
+            clearData();
+        }
+        if (e.currentTarget.classList.contains("button-search")) {
+            debouncedGetCountries(input.value);
+        }
+    });
 });
 
 // Event on input typing
-input.addEventListener("input", (e) => {
+input.addEventListener("input", () => {
     inputHighlightElem.innerText = input.value;
-    debouncedGetCountries(e);
+    debouncedGetCountries(input.value);
 });
 
 // Clear all elements
@@ -33,8 +42,7 @@ function clearData() {
 }
 
 // Debounce func for get req
-const debouncedGetCountries = debounce((e) => {
-    const inputValue = e.target.value.trim();
+const debouncedGetCountries = debounce((inputValue) => {
 
     if (inputValue == "") {
         clearData();
@@ -60,6 +68,7 @@ const debouncedGetCountries = debounce((e) => {
         .catch(() => {
             Notiflix.Notify.failure("Oops, there is no country with that name");
         });
+
 }, DEBOUNCE_DELAY);
 
 // Show names of countries
@@ -119,8 +128,11 @@ function setEventOnItems(countryListElem, countries) {
 function renderDetailOnClick(e) {
     const elem = e.target.parentNode;
     if (elem.nodeName == "LI") {
+        // Get id from target elem
         const id = elem.getAttribute("data-id");
+        // Show detail of selected country
         renderInfo(countriesRef[id]);
+        // Remove event
         countryListElem.removeEventListener("click", renderDetailOnClick, false);
     }
 }
