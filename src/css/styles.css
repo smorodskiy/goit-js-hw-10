@@ -74,7 +74,7 @@ body {
 
 .country-info-item,
 .country-item {
-    display: flex;    
+    display: flex;
     margin-right: auto;
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -112,8 +112,10 @@ body {
     width: 50px;
 }
 
-.input-wrapper {
+.input-wrapper {    
     position: relative;
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -125,7 +127,7 @@ body {
     position: absolute;
     left: 0;
     bottom: 0;
-    max-width: 100%;
+    max-width: calc(100% - 36px);
     height: 0;
     color: transparent;
     font-family: var(--font-family);
@@ -136,7 +138,7 @@ body {
     height: 60px;
     width: 100%;
     min-width: 100%;
-    padding: 0;
+    padding: 0 36px 0 0;
     border-radius: 0;
     line-height: var(--input-line-height);
     background-color: transparent;
@@ -150,6 +152,27 @@ body {
 
 #search-box:focus + .input-highlight {
     border-top: 3px solid #fbc91b;
+}
+
+button {
+    color: #7881a1;
+    font-size: 2.4rem;
+    line-height: 2.4rem;
+    vertical-align: middle;
+    transition: color 0.25s;
+    cursor: pointer;
+}
+button:hover {
+    color: #bfd2ff;
+}
+
+button {
+    position: absolute;
+    right: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
 }
 
 @media screen and (max-width: 500px) {

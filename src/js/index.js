@@ -7,9 +7,18 @@ const input = document.getElementById("search-box");
 const inputHighlightElem = document.querySelector(".input-highlight");
 const countryListElem = document.querySelector(".country-list");
 const countryInfoElem = document.querySelector(".country-info");
+const buttonElem = document.querySelector("button");
 let countriesRef;
 
 const DEBOUNCE_DELAY = 300;
+const NUMBERS_COUNTRIES_TOSHOW = 10;
+
+// Event on input typing
+buttonElem.addEventListener("click", (e) => {
+    input.value = '';
+    inputHighlightElem.innerText = '';
+    clearData();
+});
 
 // Event on input typing
 input.addEventListener("input", (e) => {
@@ -56,7 +65,7 @@ const debouncedGetCountries = debounce((e) => {
 // Show names of countries
 function showCountries(countries) {
     if (countries != undefined) {
-        if (countries.length > 10) {
+        if (countries.length > NUMBERS_COUNTRIES_TOSHOW) {
             Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             return;
         }
@@ -66,7 +75,7 @@ function showCountries(countries) {
             return;
         }
 
-        if (countries.length <= 10 && countries.length > 1) {
+        if (countries.length <= NUMBERS_COUNTRIES_TOSHOW && countries.length > 1) {
             renderList(countries);
             return;
         }
