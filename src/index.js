@@ -7,6 +7,7 @@ const input = document.getElementById("search-box");
 const inputHighlightElem = document.querySelector(".input-highlight");
 const countryListElem = document.querySelector(".country-list");
 const countryInfoElem = document.querySelector(".country-info");
+let countriesRef;
 
 const DEBOUNCE_DELAY = 300;
 
@@ -16,6 +17,7 @@ input.addEventListener("input", (e) => {
     debouncedGetCountries(e);
 });
 
+// Clear all elements
 function clearData() {
     countryInfoElem.innerHTML = "";
     countryListElem.innerHTML = "";
@@ -38,7 +40,14 @@ const debouncedGetCountries = debounce((e) => {
             }
             return response.json();
         })
-        .then((foundedCountries) => showCountries(foundedCountries))
+        .then((foundedCountries) => {
+            try {
+                showCountries(foundedCountries);
+            } catch (error) {
+                console.log(error);
+                Notiflix.Notify.failure(error.message);
+            }
+        })
         .catch(() => {
             Notiflix.Notify.failure("Oops, there is no country with that name");
         });
@@ -46,38 +55,39 @@ const debouncedGetCountries = debounce((e) => {
 
 // Show names of countries
 function showCountries(countries) {
-    // console.log(countries);
-    if (countries.length > 10) {
-        Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
-        return;
+    if (countries != undefined) {
+        if (countries.length > 10) {
+            Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
+            return;
+        }
+
+        if (countries.length == 1) {
+            renderInfo(countries[0]);
+            return;
+        }
+
+        if (countries.length <= 10 && countries.length > 1) {
+            renderList(countries);
+            return;
+        }
     }
 
-    if (countries.length == 1) {
-        renderInfo(countries[0]);
-        return;
-    }
-
-    if (countries.length <= 10 && countries.length > 1) {
-        renderList(countries);
-        return;
-    }
+    throw new Error("Oops, data is not correct");
 }
 
+// Rendering list in html
 function renderList(countries) {
     const markup = countries
-
-        .map((country) => {
+        .map((country, id) => {
             const {
                 name: { official },
                 flags: { svg },
             } = country;
 
             return `
-                    <li class="country-item">
-                        <img class="country-pic" src="${svg && svg}" alt="${
-                official && official
-            } flag" />
-                        <p>${official && official}</p>
+                    <li class="country-item" data-id=${id}>
+                        <img class="country-pic" src="${svg}" alt="${official} flag" />
+                        <p>${official}</p>
                     </li>
                     `;
         })
@@ -85,8 +95,28 @@ function renderList(countries) {
 
     clearData();
     countryListElem.innerHTML = markup;
+
+    // Start listening click event on Items
+    countriesRef = countries;
+    setEventOnItems(countryListElem, countries);
 }
 
+// Set event on item click
+function setEventOnItems(countryListElem, countries) {
+    countryListElem.addEventListener("click", renderDetailOnClick);
+}
+
+// Render info for country which clicked on list
+function renderDetailOnClick(e) {
+    const elem = e.target.parentNode;
+    if (elem.nodeName == "LI") {
+        const id = elem.getAttribute("data-id");
+        renderInfo(countriesRef[id]);
+        countryListElem.removeEventListener("click", renderDetailOnClick, false);
+    }
+}
+
+// Rendering info for one country
 function renderInfo(country) {
     const {
         name: { official },
@@ -97,27 +127,24 @@ function renderInfo(country) {
     } = country;
 
     const markup = `
-            <ul class="country-list">
-                <li class="country-item large">
-                    <img class="country-pic" src="${svg && svg}" alt="${official && official} flag" />
+            <ul class="country-info-list">
+                <li class="country-info-item large">
+                    <img class="country-pic" src="${svg}" alt="${official} flag" />
                     <p class="country-name"><b>${official}</b></p>
                 </li>
-                <li class="country-item">
-                    <p><span class="label">Capital: </span> ${capital}</p>
+                <li class="country-info">
+                    <p><span class="country-label">Capital: </span> ${capital}</p>
                 </li>
-                <li class="country-item">
-                    <p><span class="label">Population: </span> ${population}</p>
+                <li class="country-info">
+                    <p><span class="country-label">Population: </span> ${population}</p>
                 </li>
-                <li class="country-item">
-                    <p><span class="label">Languages: </span> ${Object.values(languages).join(", ")}</p>
+                <li class="country-info">
+                    <p><span class="country-label">Languages: </span> ${Object.values(
+                        languages,
+                    ).join(", ")}</p>
                 </li>
             </ul>
     `;
     clearData();
     countryInfoElem.innerHTML = markup;
-    // svg && console.log(`svg: ${svg}`);
-    // official && console.log(`Name: ${official}`);
-    // capital && console.log(`Capital: ${[...capital]}`);
-    // population && console.log(`Population: ${population}`);
-    // languages && console.log(`Languages: ${Object.values(languages).join(", ")}`);
 }
