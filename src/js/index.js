@@ -24,6 +24,10 @@ buttonsElem.forEach((btn) => {
             clearData();
         }
         if (e.currentTarget.classList.contains("button-search")) {
+
+            if (input.value == '')
+            Notiflix.Notify.info("Type the name of country for search");
+
             debouncedGetCountries(input.value);
         }
     });
@@ -120,11 +124,11 @@ function renderList(countries) {
 }
 
 // Set event on item click
-function setEventOnItems(countryListElem, countries) {
+function setEventOnItems(countryListElem) {
     countryListElem.addEventListener("click", renderDetailOnClick);
 }
 
-// Render info for country which clicked on list
+// Render info for a country in the list, that is clicked
 function renderDetailOnClick(e) {
     const elem = e.target.parentNode;
     if (elem.nodeName == "LI") {
@@ -137,7 +141,7 @@ function renderDetailOnClick(e) {
     }
 }
 
-// Rendering info for one country
+// Rendering detail info for country
 function renderInfo(country) {
     const {
         name: { official },
