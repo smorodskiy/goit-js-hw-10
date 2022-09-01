@@ -64,16 +64,34 @@ body {
     gap: 10px;
 }
 
+.country-info-item {
+    align-items: baseline;
+}
+
+.country-item {
+    align-items: center;
+}
+
 .country-info-item,
 .country-item {
-    display: flex;
-    align-items: center;
+    display: flex;    
     margin-right: auto;
+    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .country-info-item > p,
 .country-item > p {
     padding-left: 10px;
+}
+
+.country-item:hover,
+.country-item:focus {
+    transform: scale(1.05);
+}
+
+.country-item:hover > p,
+.country-item:focus > p {
+    color: #fbc91b;
 }
 
 .country-item {
