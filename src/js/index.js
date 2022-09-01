@@ -1,6 +1,6 @@
 import { getCountriesByName } from "./fetchCountries";
 import { debounce } from "lodash";
-import "./css/styles.css";
+import "../css/styles.css";
 import Notiflix from "notiflix";
 
 const input = document.getElementById("search-box");
