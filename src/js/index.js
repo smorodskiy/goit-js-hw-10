@@ -25,7 +25,7 @@ function clearData() {
 
 // Debounce func for get req
 const debouncedGetCountries = debounce((e) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value.trim();
 
     if (inputValue == "") {
         clearData();
