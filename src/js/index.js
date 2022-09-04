@@ -9,7 +9,7 @@ const countryInfoElem = document.querySelector(".country-info");
 const buttonsElem = document.querySelectorAll("button");
 let countriesRef;
 
-const NUMBERS_COUNTRIES_TOSHOW = 10;
+const NUMBERS_COUNTRIES_TOSHOW = 30;
 
 // Event on buttons typing
 buttonsElem.forEach((btn) => {
